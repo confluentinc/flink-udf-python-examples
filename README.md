@@ -52,8 +52,8 @@ API](https://nightlies.apache.org/flink/flink-docs-release-2.1/docs/dev/python/t
 example_udf $ uv add apache-flink grpcio
 ```
 
-This will error out if uv cannot reconcile your dependencies with the
-constraints in the runtime.
+uv will find a version which works with the runtime constraints and
+will error out if it cannot reconcile the two.
 
 
 ### Add Modules and Define UDFs

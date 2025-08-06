@@ -9,8 +9,9 @@ authors = [
 requires-python = ">=3.10"
 dependencies = [
     # This is needed to define your UDF.
-    "apache-flink>=2.1.0",
-    # You can bring in other external dependencies.
+    "apache-flink>=2.0.0",
+    # You can bring in other external dependencies. Use `uv add` to
+    # resolve a version which will work with the runtime constraints.
     "grpcio>=1.65.5",
     "protobuf>=5.29.5",
 ]
@@ -21,7 +22,6 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
-    "grpcio-tools>=1.65.5",
     "ruff>=0.12.7",
 ]
 
@@ -30,7 +30,7 @@ dev = [
 # `confluent-function-runtime-server` and `confluent-udf-shim`. We
 # will eventually host this list publicly.
 constraint-dependencies = [
-    "apache-flink>=2.1.0",
+    "apache-flink~=2.0.0",
     "click>=8.2.0",
     "confluent-function-runtime-core>=0.161.0",
     "grpc-interceptor>=0.15.0",
