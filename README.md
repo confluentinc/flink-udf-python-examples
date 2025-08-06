@@ -11,10 +11,11 @@ The process for making a new UDF Python project using
 
 ### Init Repo
 
-Create a new "library" project with your desired name.
+Create a new "library" project with your desired name and Python
+version. Only Python versions 3.10-3.11 are currently supported.
 
 ```shell
-$ uv init --lib example_udf
+$ uv init -p 3.11 --lib example_udf
 $ cd example_udf
 ```
 
@@ -29,14 +30,14 @@ TODO: Add a link to the constantly updated constraint list.
 ```toml
 [tool.uv]
 constraint-dependencies = [
-    "apache-flink>=2.1.0",
+    "apache-flink~=1.19",
     "click>=8.2.0",
     "confluent-function-runtime-core>=0.161.0",
     "grpc-interceptor>=0.15.0",
     "grpcio-health-checking>=1.59.0",
     "grpcio-reflection>=1.59.0",
     "grpcio>=1.59.0",
-    "protobuf>=5.29.0",
+    "protobuf>=4.23.4",
     "typing_extensions>=4.4.0",
 ]
 ```
