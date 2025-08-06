@@ -60,7 +60,22 @@ Writing dist/example_udf-0.1.0.zip
 
 ### Upload
 
-TODO
+Use the `confluent` command line tool to upload this zip as a Flink
+Python artifact.
+
+```shell
+example_udf $ confluent flink artifact create my-flink-artifact \
+    --artifact-file dist/example_udf-0.1.0.zip \
+    --runtime-language python \
+    --cloud aws \
+    --region us-west-2 \
+    --environment env-123456
+```
+
+See [the `confluent flink artifact create`
+documentation](https://docs.confluent.io/confluent-cli/current/command-reference/flink/artifact/confluent_flink_artifact_create.html#confluent-flink-artifact-create)
+for more info.
+
 
 ## Testing
 
