@@ -7,12 +7,14 @@ then
     exit 1
 fi
 
-intar=$(realpath "$1")
+intar="$1"
+absin=$(realpath "$1")
 outzip=${intar%.tar.gz}.zip
+absout=${absin%.tar.gz}.zip
 
 tmpdir=$(mktemp -d)
 echo "Extracting $intar"
 tar -xf "$intar" -C "$tmpdir"
 echo "Writing $outzip"
-(cd "$tmpdir" || exit; rm -f "$outzip"; zip -qr "$outzip" .)
+(cd "$tmpdir" || exit; zip -qr -FS "$absout" .)
 rm -rf "$tmpdir"
