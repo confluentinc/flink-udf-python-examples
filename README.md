@@ -57,14 +57,13 @@ local dependencies are compatible with those available.
 [tool.uv]
 constraint-dependencies = [
     "apache-flink>=2.1.0",
-    "confluent-function-runtime-core>=0.161.0",
-    "protobuf>=5.29.0",
     "click>=8.2.0",
     "confluent-function-runtime-core>=0.161.0",
     "grpc-interceptor>=0.15.0",
     "grpcio-health-checking>=1.59.0",
     "grpcio-reflection>=1.59.0",
     "grpcio>=1.59.0",
+    "protobuf>=5.29.0",
     "typing_extensions>=4.4.0",
 ]
 ```
