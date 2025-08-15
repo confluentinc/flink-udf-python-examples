@@ -12,9 +12,6 @@ absin=$(realpath "$1")
 outzip=${intar%.tar.gz}.zip
 absout=${absin%.tar.gz}.zip
 
-# remove the /*.tar.gz from the intar to get the dir
-# if intar is dist/example_udf-0.1.0.tar.gz
-# how to get base dir dist
 intar_dir=$(dirname "$absin")
 
 echo "writing $outzip"
