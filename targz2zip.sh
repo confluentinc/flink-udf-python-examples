@@ -12,9 +12,10 @@ absin=$(realpath "$1")
 outzip=${intar%.tar.gz}.zip
 absout=${absin%.tar.gz}.zip
 
-tmpdir=$(mktemp -d)
-echo "Extracting $intar"
-tar -xf "$intar" -C "$tmpdir"
-echo "Writing $outzip"
-(cd "$tmpdir" || exit; zip -qr -FS "$absout" .)
-rm -rf "$tmpdir"
+# remove the /*.tar.gz from the intar to get the dir
+# if intar is dist/example_udf-0.1.0.tar.gz
+# how to get base dir dist
+intar_dir=$(dirname "$absin")
+
+echo "writing $outzip"
+(cd $intar_dir || exit; zip -r "$absout" .)
