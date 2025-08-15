@@ -92,28 +92,7 @@ Then re-package that as a zip.
 
 ```shell
 example_udf $ cd dist
-example_udf/dist $ mkdir tmp
-example_udf/dist $ tar -xvf example_udf-0.1.0.tar.gz -C tmp
-x example_udf-0.1.0/PKG-INFO
-x example_udf-0.1.0/
-x example_udf-0.1.0/README.md
-x example_udf-0.1.0/pyproject.toml
-x example_udf-0.1.0/src
-x example_udf-0.1.0/src/example_udf
-x example_udf-0.1.0/src/example_udf/__init__.py
-x example_udf-0.1.0/src/example_udf/py.typed
-example_udf/dist $ cd tmp
-example_udf/dist/tmp $ zip -r ../example_udf-0.1.0.zip .
-  adding: example_udf-0.1.0/ (stored 0%)
-  adding: example_udf-0.1.0/PKG-INFO (deflated 55%)
-  adding: example_udf-0.1.0/pyproject.toml (deflated 49%)
-  adding: example_udf-0.1.0/README.md (deflated 55%)
-  adding: example_udf-0.1.0/src/ (stored 0%)
-  adding: example_udf-0.1.0/src/example_udf/ (stored 0%)
-  adding: example_udf-0.1.0/src/example_udf/__init__.py (deflated 37%)
-  adding: example_udf-0.1.0/src/example_udf/py.typed (stored 0%)
-example_udf/dist/tmp $ cd ..
-example_udf/dist $ rm -rf tmp
+example_udf/dist $ zip -r example_udf-0.1.0.zip .
 ```
 
 This creates `dist/example_udf-0.1.0.zip`.
@@ -123,7 +102,6 @@ You can also use the script included here
 
 ```shell
 example_udf $ ./targz2zip.sh dist/example_udf-0.1.0.tar.gz
-Extracting dist/example_udf-0.1.0.tar.gz
 Writing dist/example_udf-0.1.0.zip
 ```
 

@@ -12,9 +12,7 @@ absin=$(realpath "$1")
 outzip=${intar%.tar.gz}.zip
 absout=${absin%.tar.gz}.zip
 
-tmpdir=$(mktemp -d)
-echo "Extracting $intar"
-tar -xf "$intar" -C "$tmpdir"
-echo "Writing $outzip"
-(cd "$tmpdir" || exit; zip -qr -FS "$absout" .)
-rm -rf "$tmpdir"
+intar_dir=$(dirname "$absin")
+
+echo "writing $outzip"
+(cd $intar_dir || exit; zip -r "$absout" .)
