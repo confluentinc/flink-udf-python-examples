@@ -88,22 +88,13 @@ example_udf $ uv build --sdist
 Successfully built dist/example_udf-0.1.0.tar.gz
 ```
 
-Then re-package that as a zip.
+Then re-package the sdist into a zip.
 
 ```shell
-example_udf $ cd dist
-example_udf/dist $ zip -r example_udf-0.1.0.zip .
+example_udf $ zip -FS dist/example_udf-0.1.0.zip dist/example_udf-0.1.0.tar.gz
 ```
 
 This creates `dist/example_udf-0.1.0.zip`.
-
-You can also use the script included here
-[`targz2zip.sh`](targz2zip.sh).
-
-```shell
-example_udf $ ./targz2zip.sh dist/example_udf-0.1.0.tar.gz
-Writing dist/example_udf-0.1.0.zip
-```
 
 
 ### Upload

@@ -9,7 +9,7 @@ resolution-markers = [
 
 [manifest]
 constraints = [
-    { name = "apache-flink", specifier = "~=2.0" },
+    { name = "apache-flink", specifier = "==2.0.0" },
     { name = "click", specifier = ">=8.2.0" },
     { name = "confluent-function-runtime-core", specifier = ">=0.161.0" },
     { name = "grpc-interceptor", specifier = ">=0.15.0" },
@@ -79,7 +79,7 @@ wheels = [
 
 [[package]]
 name = "apache-flink"
-version = "2.1.0"
+version = "2.0.0"
 source = { registry = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/" }
 dependencies = [
     { name = "apache-beam" },
@@ -100,24 +100,21 @@ dependencies = [
     { name = "requests" },
     { name = "ruamel-yaml" },
 ]
-sdist = { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.1.0/apache_flink-2.1.0.tar.gz", hash = "sha256:7a69e0c8c4a7ed3e9272c7a289bc58dcb555d504594fd947a4fca46186a0421b" }
+sdist = { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.0.0/apache-flink-2.0.0.tar.gz", hash = "sha256:ac669ab5442ed953f43cae3f1847d8b6a7444afc399a81b3d340254328abf334" }
 wheels = [
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.1.0/apache_flink-2.1.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:c1f604a1aef756a71555734e28e1c7015e445c7b564c49faffcba2970c344738" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.1.0/apache_flink-2.1.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:819f6864e33ee7c62048d70fbdbf9e06d4bbb9db7f7ee4fe80dbbce8583ae838" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.1.0/apache_flink-2.1.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d6290b7163b1072a1e662cd29a751f2206904a03d5b74f475f385d37e7edc319" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.1.0/apache_flink-2.1.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:65fec214e123021a7000184a158f5bd30ee46b3b70634a4319a0276f0de299d4" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.1.0/apache_flink-2.1.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:f8644e64a38f43e0b66535a33231a55f7bd28fb5cc94fe13f417d1dd2021eea9" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.1.0/apache_flink-2.1.0-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0685fc723c35e03360d9ce5e46c0066786635572d460d143271a4f5328782f7f" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.1.0/apache_flink-2.1.0-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:33f0ddceb00688e66ad08b51a0b78a77dbe3d20519ce635fe09b5b9723b5aaef" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.1.0/apache_flink-2.1.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:71e1225439a820258d7d4c758b213993a1f9da6d0ecdaa50b6920b4b2814739d" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.1.0/apache_flink-2.1.0-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ebf5e2706a918b267f00517add9fb1f36b5d77d9f9b310f9a46379954b8d47d0" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.0.0/apache_flink-2.0.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:ebd0e88e7f9b5800b84f9c8203b0aff0bef2a1ad37e3076ca144138736a6fd9f" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.0.0/apache_flink-2.0.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:32b082d3b5679e9c4541fa9d8081293977e4bdf93c8666afdf1924f62ef4c04f" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.0.0/apache_flink-2.0.0-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:621977eabdd7d945037f93d092680e81fa328fc4ab3a3202a50bf46d700362f9" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.0.0/apache_flink-2.0.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:5fff844e0a3c33e4a90eedb026f2ee5fda68716a57088c13f7374bf3b88ed790" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.0.0/apache_flink-2.0.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:a3e38b319f479d9a9c4944954847145bcc24f9f548352b73b0171e11a4027e27" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink/2.0.0/apache_flink-2.0.0-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:c01cb942ebf3667d5b2bb6fcfa770a10403d349de56dcd15cc13da7eebc154e8" },
 ]
 
 [[package]]
 name = "apache-flink-libraries"
-version = "2.1.0"
+version = "2.0.0"
 source = { registry = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/" }
-sdist = { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink-libraries/2.1.0/apache_flink_libraries-2.1.0.tar.gz", hash = "sha256:a8c12b411eefd45a33e54579ff65c29faa09e96a670f3c2c39ddeca35d8196c6" }
+sdist = { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/apache-flink-libraries/2.0.0/apache-flink-libraries-2.0.0.tar.gz", hash = "sha256:916cdd32d870db6cf6409f621b3c5baedfaf1ad4bb7b638c68af488475f27f46" }
 
 [[package]]
 name = "async-timeout"
@@ -326,7 +323,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "apache-flink", specifier = ">=2.0.0" },
+    { name = "apache-flink", specifier = "==2.0.0" },
     { name = "grpcio", specifier = ">=1.65.5" },
     { name = "protobuf", specifier = ">=5.29.5" },
 ]
@@ -690,22 +687,19 @@ wheels = [
 
 [[package]]
 name = "pemja"
-version = "0.5.3"
+version = "0.4.1"
 source = { registry = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/" }
 dependencies = [
     { name = "find-libpython" },
 ]
-sdist = { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.5.3/pemja-0.5.3.tar.gz", hash = "sha256:bbcbc4d63a44455c93e865007c53c9882af4585b25bae9cb0bf9984e312e4969" }
+sdist = { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.4.1/pemja-0.4.1.tar.gz", hash = "sha256:38b0466ba48822cd9fa65bf8465c45474bf3f048d6458388e0bf895904258e8c" }
 wheels = [
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.5.3/pemja-0.5.3-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:91a1217842d59665715393358f6cb148777cc1fd2ac3f350b4ab9574c64e533d" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.5.3/pemja-0.5.3-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:5d7cf1ebca3e7745bb1b8dd6a74f2d0b2c155a8e64ee45528a0417686ab3398e" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.5.3/pemja-0.5.3-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:afca1c5da8e59f484f340415f7c7fec3b4b819924a8c2f2001bb74b4c9e5c70e" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.5.3/pemja-0.5.3-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:60e87f04e4cd1fb5471bb4bb89d4c27759cc022b4ece259abb4a6b3aaca1c65c" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.5.3/pemja-0.5.3-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:bc88a1453bfca6fdc1d76d1f8c33a82f72d56117b6612cf2b0d3716bcf7b70c0" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.5.3/pemja-0.5.3-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:2ee619b49e2a982ee0be96597567becf5d5f23afb7878bce52be70c20a907fef" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.5.3/pemja-0.5.3-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:18d70fff16a518589b35749d5919b8a273b2dee5e98c7409ed2d55bda9fa7ae1" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.5.3/pemja-0.5.3-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:04ff18d28d6b90d8dfca9cf00fc518635b8c7e0f3ff53e5ce63a6a27bc9bb4a7" },
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.5.3/pemja-0.5.3-cp312-cp312-manylinux1_x86_64.whl", hash = "sha256:587b8cf20a69bcd1cc614797dfbae4ff30b46a53f16bbe35438b83e4284fd68e" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.4.1/pemja-0.4.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:04cdc97e64d5fcaef0ecccebd10ba9d6d933b8f897b8e52686e82af09d1fce5a" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.4.1/pemja-0.4.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:e743138539f3d2bd6835de8ad15bc5e2a5d8d26e3c4ecae230c814381c13efe1" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.4.1/pemja-0.4.1-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:f6b07688bac56f7f21137010a372082f49a1bca5b19fee29774c29813714503a" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.4.1/pemja-0.4.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:8b552ad0982f474eb40c5f9146a32aef1e2a0cf97341ab7620c91cd56cda3536" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.4.1/pemja-0.4.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:ec20f1038da8925f7720961cfc9f7c41a5194fb835fb0b2e71d8c9d0f496b524" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pemja/0.4.1/pemja-0.4.1-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:78a4fa07bacc1b30b3acb88608e0622395cd8a34144dfe455ec8788e32fe3ca1" },
 ]
 
 [[package]]
