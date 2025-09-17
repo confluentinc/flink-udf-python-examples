@@ -63,9 +63,10 @@ class _ScalarExecutor:
 
     def invoke(self, payload: bytes) -> bytes:
         try:
+            logger.info(f"Decoding arguments from payload: {payload}")
             args = self._serde.decode_args(payload)
         except Exception as ex:
-            msg = "error decoding UDF arguments"
+            msg = "error decoding UDF arguments with payload: " + str(payload)
             raise CoderError(msg, 0) from ex
 
         try:
