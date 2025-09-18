@@ -3,16 +3,16 @@ from pyflink.table.udf import udf
 
 
 @udf(
-    input_types=[DataTypes.BIGINT(), DataTypes.BIGINT()],
-    result_type=DataTypes.BIGINT(),
+    input_types=[DataTypes.BIGINT(nullable=False), DataTypes.BIGINT(nullable=False)],
+    result_type=DataTypes.BIGINT(nullable=False),
 )
-def int_add(i, j):
+def int_add(i: int, j: int) -> int:
     return i + j
 
 
 @udf(
-    input_types=[DataTypes.VARCHAR(), DataTypes.VARCHAR()],
-    result_type=DataTypes.VARCHAR(),
+    input_types=[DataTypes.VARCHAR(nullable=False), DataTypes.VARCHAR(nullable=False)],
+    result_type=DataTypes.VARCHAR(nullable=False),
 )
-def str_concat(i, j):
+def str_concat(i: str, j: str) -> str:
     return i + j
