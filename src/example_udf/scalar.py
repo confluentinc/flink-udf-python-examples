@@ -8,3 +8,11 @@ from pyflink.table.udf import udf
 )
 def int_add(i, j):
     return i + j
+
+
+@udf(
+    input_types=[DataTypes.VARCHAR(), DataTypes.VARCHAR()],
+    result_type=DataTypes.VARCHAR(),
+)
+def str_concat(i, j):
+    return i + j
