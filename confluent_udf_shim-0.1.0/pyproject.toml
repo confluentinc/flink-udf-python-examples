@@ -1,0 +1,192 @@
+################################################################################
+# Copyright 2025 Confluent Inc.
+################################################################################
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "confluent-udf-shim"
+version = "0.1.0"
+authors = [
+    {name = "Confluent", email = "flink-runtime@confluent.io"},
+]
+description = "SHIM project for support Python UDF extraction and invocation"
+readme = "README.md"
+# Causes public PyPI to reject this package. Just in case some process
+# accidentally tries to publish it there.
+classifiers = ["Private :: Do Not Upload"]
+
+requires-python = ">=3.10"
+dependencies = [
+    # This version must be pinned. If you update it, check that the vendored
+    # code in `src/pyflink` is still compatible. This will not be installed
+    # locally due to an override below, nor in SCP pods due to an override
+    # there. We keep it in our deps here so that we can propagate constraints to
+    # the customer correctly.
+    "apache-flink==2.0.0",
+    "confluent-function-runtime-core>=0.181.0",
+    "protobuf>=5.29.1",
+    "typing_extensions>=4.4.0",
+]
+
+[dependency-groups]
+dev = [
+    "click>=8.2.1",
+    # Used to integration test the handlers.
+    "confluent-function-runtime-server>=0.190.0",
+    "grpcio-health-checking>=1.65.0",
+    "grpcio-tools>=1.65.0",
+    "mypy>=1.17.1",
+    "pytest>=8.4.1",
+    "ruff>=0.12.5",
+    "tox-uv>=1.26.2",
+    "tox>=4.28.4",
+    "types-grpcio-health-checking>=1.0.0.20250506",
+    "types-grpcio>=1.0.0.20250703",
+    "types-protobuf>=6.30.2.20250703",
+]
+
+[project.urls]
+Repository = "https://github.com/confluentinc/flink"
+
+[tool.uv]
+# Lock our direct deps using the lowest version which obeys the bounds
+# above. This is so when we're developing, we don't accidentally use
+# newer features of a dep that won't be available when we resolve with
+# customer code.
+resolution = "lowest-direct"
+# These must match the dependencies used in
+# https://github.com/confluentinc/cc-secure-compute-function-runtime-python/blob/master/function_runtime_python_server/pyproject.toml#L13-L24
+constraint-dependencies = [
+    "click>=8.2.0",
+    "confluent-function-runtime-core>=0.161.0",
+    "grpc-interceptor>=0.15.0",
+    "grpcio-health-checking>=1.65.0",
+    "grpcio-reflection>=1.65.0",
+    "grpcio>=1.65.0",
+    "protobuf>=5.29.1",
+    "typing_extensions>=4.4.0",
+]
+
+# We are vendoring `apache-flink` so we should not actually install it for local
+# development.
+override-dependencies = [
+    "apache-flink ; sys_platform == 'never'",
+]
+dependency-metadata = [
+    { name = "apache-flink", requires-dist = [] },
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["confluent_udf_shim*", "pyflink*"]
+
+[tool.pytest.ini_options]
+addopts = "-v"
+
+[tool.ruff]
+extend-exclude = [
+    "*_pb2.py",
+    "*_pb2.pyi",
+    "*_pb2_grpc.py",
+    # Don't format or lint vendored code.
+    "src/pyflink",
+]
+
+[tool.ruff.lint]
+select = [
+    "A",
+    "ASYNC",
+    "B",
+    "C4",
+    "DTZ",
+    "E",
+    "EM",
+    "F",
+    "FA",
+    "FURB",
+    "G",
+    "I",
+    "ISC",
+    "N",
+    "PERF",
+    "PGH",
+    "PLC",
+    "PLE",
+    "PT",
+    "PTH",
+    "RET",
+    "RUF",
+    "SIM",
+    "TRY",
+    "UP",
+]
+ignore = [
+    "TRY301",
+    # Going to be deprecated shortly.
+    "UP038",
+]
+
+[tool.mypy]
+strict = true
+
+enable_error_code  = [
+    "exhaustive-match",
+    "explicit-override",
+    "ignore-without-code",
+    "mutable-override",
+    "possibly-undefined",
+    "redundant-expr",
+    "truthy-bool",
+    "truthy-iterable",
+]
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = [
+    "confluent_udf_shim.proto.api.*",
+]
+# Maybe one day protoc will provide valid annotations... (and we'll
+# get to use that version of protoc).
+ignore_errors = true
+
+[tool.tox]
+env_list = [
+    "lint",
+    "type",
+    "py310",
+    "py311",
+    # "py312", # PyFlink doesn't work with 3.12+ yet until 2.1.0+.
+    # "py313",
+]
+
+[tool.tox.env_run_base]
+runner = "uv-venv-lock-runner"
+description = "Run tests via pytest"
+commands = [
+    ["pytest", "tests"],
+]
+
+[tool.tox.env.format]
+runner = "uv-venv-lock-runner"
+description = "Format via ruff"
+commands = [
+    ["ruff", "format"],
+    ["ruff", "check", "--fix"],
+]
+
+[tool.tox.env.lint]
+runner = "uv-venv-lock-runner"
+description = "Lint check via ruff"
+commands = [
+    ["ruff", "format", "--check"],
+    ["ruff", "check", "--output-format=concise"],
+]
+
+[tool.tox.env.type]
+runner = "uv-venv-lock-runner"
+description = "Type check via mypy"
+commands = [
+    ["mypy", "src/confluent_udf_shim", "tests"],
+]
