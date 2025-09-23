@@ -22,7 +22,11 @@ requires = ["uv_build>=0.8.0,<0.9"]
 build-backend = "uv_build"
 
 [dependency-groups]
+# You can still `uv add --dev` any development dependencies to run
+# tests or do lints, etc.
 dev = [
+    "mypy>=1.17.1",
+    "pytest>=8.4.1",
     "ruff>=0.12.7",
 ]
 
@@ -41,3 +45,18 @@ constraint-dependencies = [
     "protobuf>=5.29.1",
     "typing_extensions>=4.4.0",
 ]
+
+[tool.mypy]
+files = [
+    "src",
+    "tests",
+]
+strict = true
+
+[[tool.mypy.overrides]]
+# `apache-flink==2.0.0` does not formally declare type hints, but you
+# can still instruct mypy to do basic type checking.
+module = [
+    "pyflink.*",
+]
+follow_untyped_imports = true
