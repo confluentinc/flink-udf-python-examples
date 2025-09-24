@@ -1,0 +1,5 @@
+{
+  "ignoreDeps": [
+    "apache-flink"
+  ]
+}
