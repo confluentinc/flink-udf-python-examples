@@ -1,0 +1,22 @@
+version: v1.0
+name: PR Test/Lint
+agent:
+  machine:
+    type: s1-prod-ubuntu24-04-amd64-1
+
+execution_time_limit:
+  hours: 1
+
+global_job_config:
+  prologue:
+    commands:
+      - sem-version python 3.11
+      - checkout
+blocks:
+  - name: Tests
+    dependencies: []
+    task:
+      jobs:
+        - name: Tests
+          commands:
+            - uv run pytest
