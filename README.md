@@ -30,7 +30,7 @@ TODO: Add a link to the constantly updated constraint list.
 ```toml
 [tool.uv]
 constraint-dependencies = [
-    "apache-flink~=2.0.0",
+    "apache-flink==2.0.0",
     "click>=8.2.0",
     "confluent-function-runtime-core>=0.161.0",
     "grpc-interceptor>=0.15.0",
