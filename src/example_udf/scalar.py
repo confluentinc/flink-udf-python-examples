@@ -8,13 +8,13 @@ def _f_int_add(i: int, j: int) -> int:
 
 
 _int_add_inp_types: list[DataType] = [
-    DataTypes.BIGINT(nullable=False),
-    DataTypes.BIGINT(nullable=False),
+    DataTypes.INT(nullable=False),
+    DataTypes.INT(nullable=False),
 ]
 int_add = udf(
     _f_int_add,
     input_types=_int_add_inp_types,
-    result_type=DataTypes.BIGINT(nullable=False),
+    result_type=DataTypes.INT(nullable=False),
 )
 
 
