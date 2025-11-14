@@ -32,12 +32,14 @@ TODO: Add a link to the constantly updated constraint list.
 constraint-dependencies = [
     "apache-flink==2.0.0",
     "click>=8.2.0",
-    "confluent-function-runtime-core>=0.161.0",
+    "confluent-function-runtime-core>=0.181.0",
     "grpc-interceptor>=0.15.0",
     "grpcio-health-checking>=1.65.0",
     "grpcio-reflection>=1.65.0",
     "grpcio>=1.65.0",
     "protobuf>=5.29.1",
+    "psutil>=5.9.0",
+    "pyparsing>=3.2.5",
     "typing_extensions>=4.4.0",
 ]
 ```
