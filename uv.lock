@@ -11,12 +11,14 @@ resolution-markers = [
 constraints = [
     { name = "apache-flink", specifier = "==2.0.0" },
     { name = "click", specifier = ">=8.2.0" },
-    { name = "confluent-function-runtime-core", specifier = ">=0.161.0" },
+    { name = "confluent-function-runtime-core", specifier = ">=0.181.0" },
     { name = "grpc-interceptor", specifier = ">=0.15.0" },
     { name = "grpcio", specifier = ">=1.65.0" },
     { name = "grpcio-health-checking", specifier = ">=1.65.0" },
     { name = "grpcio-reflection", specifier = ">=1.65.0" },
     { name = "protobuf", specifier = ">=5.29.1" },
+    { name = "psutil", specifier = ">=5.9.0" },
+    { name = "pyparsing", specifier = ">=3.2.5" },
     { name = "typing-extensions", specifier = ">=4.4.0" },
 ]
 
@@ -972,11 +974,11 @@ wheels = [
 
 [[package]]
 name = "pyparsing"
-version = "3.2.3"
+version = "3.2.5"
 source = { registry = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/" }
-sdist = { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pyparsing/3.2.3/pyparsing-3.2.3.tar.gz", hash = "sha256:b9c13f1ab8b3b542f72e28f634bad4de758ab3ce4546e4301970ad6fa77c38be" }
+sdist = { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pyparsing/3.2.5/pyparsing-3.2.5.tar.gz", hash = "sha256:2df8d5b7b2802ef88e8d016a2eb9c7aeaa923529cd251ed0fe4608275d4105b6" }
 wheels = [
-    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pyparsing/3.2.3/pyparsing-3.2.3-py3-none-any.whl", hash = "sha256:a749938e02d6fd0b59b356ca504a24982314bb090c383e3cf201c95ef7e2bfcf" },
+    { url = "https://confluent-519856050701.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/simple/pyparsing/3.2.5/pyparsing-3.2.5-py3-none-any.whl", hash = "sha256:e38a4f02064cf41fe6593d328d0512495ad1f3d8a91c4f73fc401b3079a59a5e" },
 ]
 
 [[package]]
