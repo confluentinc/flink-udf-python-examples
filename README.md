@@ -6,13 +6,24 @@ Cloud.
 Please install [uv](https://docs.astral.sh/uv/) to work with the
 examples in this repo.
 
+The fastest way to prototype your own Python UDF is to clone this
+repo, create a new Python file `src/example_udf/my_test_udfs.py`, and
+start defining UDFs there; you can skip to the section [Writing
+UDFs](#writing-udfs).
+
+```shell
+$ git clone git@github.com:confluentinc/flink-udf-python-examples.git example_udf
+$ cd example_udf
+example_udf $ touch src/example_udf/my_test_udfs.py
+```
+
+You can then follow the [Deployment](#deployment) section.
+
 
 ## Creating from Scratch
 
-The process for making a new UDF Python project using
-[uv](https://docs.astral.sh/uv/) is as follows. This is if you want to
-make a new repository, if you want to modify this repository in-place,
-you can skip to [Writing UDFs](#writing-udfs).
+The process for making a new UDF Python project from scratch using
+[uv](https://docs.astral.sh/uv/) is as follows.
 
 
 ### Init Repo
@@ -24,9 +35,6 @@ version. Only Python versions 3.10-3.11 are currently supported.
 $ uv init -p 3.11 --lib example_udf
 $ cd example_udf
 ```
-
-
-### Add Environment Constraints
 
 Append this to `example_udf/pyproject.toml`. This ensures that your
 local dependencies are compatible with those available in the
@@ -51,19 +59,18 @@ constraint-dependencies = [
 ]
 ```
 
-
-### Add User Dependencies
-
-Add any Python dependencies you need. You will always need to add
-`apache-flink` to have access to the [PyFlink UDF
+You will always need to add a dependency on `apache-flink` to have
+access to the [PyFlink UDF
 API](https://nightlies.apache.org/flink/flink-docs-release-2.1/docs/dev/python/table/udfs/overview/).
+Confluent Cloud currently only supports exactly version 2.0.0 of the
+Apache Flink Python API.
 
 ```shell
-example_udf $ uv add apache-flink grpcio
+example_udf $ uv add 'apache-flink==2.0.0'
 ```
 
-uv will find a version which works with the runtime constraints and
-will error out if it cannot reconcile the two.
+Once you have done these initial project setup tasks, you can now add
+your custom dependencies and code.
 
 
 ### Add Modules and Define UDFs
@@ -82,6 +89,20 @@ shape. (E.g. scalars in
 
 
 ## Writing UDFs
+
+### Add User Dependencies
+
+Add any Python dependencies you need.
+
+```shell
+example_udf $ uv add grpcio
+```
+
+uv will find a version which works with the runtime constraints and
+will error out if it cannot reconcile the two.
+
+
+### UDF Definitions
 
 See the [Apache Flink
 Documentation](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/dev/python/table/udfs/overview/)
@@ -211,11 +232,45 @@ where you specify the SQL function name, the qualified name of the UDF
 in the package, and the artifact ID.
 
 ```sql
-CREATE FUNCTION str_concat AS 'example_udf.scalar.str_concat' LANGUAGE PYTHON
-USING JAR 'confluent-artifact://cfa-devcq2yx3m';
+CREATE FUNCTION str_concat AS 'example_udf.scalar.str_concat'
+  LANGUAGE PYTHON
+  USING JAR 'confluent-artifact://cfa-devcq2yx3m';
 ```
 
-Execute this in isolation, and if it succeeds, you can call your UDF
-in followup SQL by the SQL function name, in this case `str_concat`.
-This name might be the same as the variable name in your Python
-project, but `CREATE FUNCTION` can give it an arbitrary name.
+> [!TIP]
+> If you are unsure of the qualified name of the UDF, you can test that
+> out by starting up a Python REPL.
+>
+> ```shell
+> example_udf $ uv run python
+> ```
+>
+> And then double checking that your import path succeeds.
+> Unfortunately, the way that Python imports work mean that you can't
+> import by the entire qualified name, but instead the package part
+> before the final dot, then the name part.
+>
+> ```python
+> >>> from example_udf.scalar import str_concat
+> ```
+>
+> If you get an `ImportError`, double check the location of your
+> function.
+
+If the `CREATE FUNCTION` succeeds, you can call your UDF in followup
+SQL by the SQL function name, in this case `str_concat`. You can set
+this name to be the same as the variable name in your Python project,
+but in the `CREATE FUNCTION` statement, you can give it an arbitrary
+name.
+
+
+### Call Function
+
+The simplest way to invoke your function for validation on Confluent
+Cloud is to call it in a `SELECT` statement with constant arguments.
+
+```sql
+SELECT str_concat('Hello', 'World');
+```
+
+This will return a single row with the return value.
