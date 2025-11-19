@@ -5,7 +5,7 @@ fail_count=0
 for dir in */
 do
     echo "TESTING EXAMPLE PACKAGE $dir"
-    (cd $dir && uv run pytest) || ((fail_count++))
+    (cd "$dir" && uv run pytest) || ((fail_count++))
 done
 
 if ((fail_count > 0))
