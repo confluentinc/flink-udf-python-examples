@@ -1,0 +1,56 @@
+[project]
+name = "email-mask"
+version = "0.1.0"
+description = "Example Python UDF which hash-masks emails"
+authors = [
+    { name = "Zander Matheson", email = "amatheson@confluent.io" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    # This is needed to define your UDF. We only support one version
+    # of `apache-flink` currently.
+    "apache-flink==2.0.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.9,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+# You can still `uv add --dev` any development dependencies to run
+# tests or do lints, etc.
+dev = [
+    "mypy>=1.18.2",
+    "pytest>=9.0.1",
+    "ruff>=0.14.5",
+]
+
+[tool.uv]
+constraint-dependencies = [
+    "apache-flink==2.0.0",
+    "click>=8.2.0",
+    "confluent-function-runtime-core>=0.181.0",
+    "grpc-interceptor>=0.15.0",
+    "grpcio-health-checking>=1.65.0",
+    "grpcio-reflection>=1.65.0",
+    "grpcio>=1.65.0",
+    "protobuf>=5.29.1",
+    "psutil>=5.9.0",
+    "pyparsing>=3.2.5",
+    "typing_extensions>=4.4.0",
+]
+
+[tool.mypy]
+files = [
+    "src",
+    "tests",
+]
+strict = true
+
+[[tool.mypy.overrides]]
+# `apache-flink==2.0.0` does not formally declare type hints, but you
+# can still instruct mypy to do basic type checking.
+module = [
+    "pyflink.*",
+]
+follow_untyped_imports = true
