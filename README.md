@@ -1,20 +1,21 @@
 # Example Apache Flink® Python User Defined Functions on Confluent Cloud
 
 This repository contains example Python UDFs packaged for Confluent
-Cloud.
+Cloud. Each top-level directory is a separate example project, e.g.
+[`basic`](basic) and [`email_mask`](email_mask).
 
 Please install [uv](https://docs.astral.sh/uv/) to work with the
 examples in this repo.
 
 The fastest way to prototype your own Python UDF is to clone this
-repo, create a new Python file `src/example_udf/my_test_udfs.py`, and
-start defining UDFs there; you can skip to the section [Writing
-UDFs](#writing-udfs).
+repo, use the `basic` example Python project, create a new Python file
+`src/example_udf/my_test_udfs.py`, and start defining UDFs there; you
+can skip to the section [Writing UDFs](#writing-udfs).
 
 ```shell
 $ git clone git@github.com:confluentinc/flink-udf-python-examples.git example_udf
-$ cd example_udf
-example_udf $ touch src/example_udf/my_test_udfs.py
+$ cd example_udf/basic
+basic $ touch src/example_udf/my_test_udfs.py
 ```
 
 You can then follow the [Deployment](#deployment) section.
@@ -32,8 +33,8 @@ Create a new "library" project with your desired name and Python
 version. Only Python versions 3.10-3.11 are currently supported.
 
 ```shell
-$ uv init -p 3.11 --lib example_udf
-$ cd example_udf
+$ uv init -p 3.11 --lib example_udf basic
+$ cd basic
 ```
 
 Append this to `example_udf/pyproject.toml`. This ensures that your
@@ -66,7 +67,7 @@ Confluent Cloud currently only supports exactly version 2.0.0 of the
 Apache Flink Python API.
 
 ```shell
-example_udf $ uv add 'apache-flink==2.0.0'
+basic $ uv add 'apache-flink==2.0.0'
 ```
 
 Once you have done these initial project setup tasks, you can now add
@@ -83,9 +84,9 @@ A single UDF function can go in
 module structure as you want.
 
 In this repo, we have a buffet of example UDF types in the
-[`src/example_udf`](src/example_udf) directory, separated out by UDF
+[`basic/src/example_udf`](basic/src/example_udf) directory, separated out by UDF
 shape. (E.g. scalars in
-[`src/example_udf/scalar.py`](src/example_udf/scalar.py).
+[`basic/src/example_udf/scalar.py`](basic/src/example_udf/scalar.py).
 
 
 ## Writing UDFs
@@ -95,7 +96,7 @@ shape. (E.g. scalars in
 Add any Python dependencies you need.
 
 ```shell
-example_udf $ uv add grpcio
+basic $ uv add grpcio
 ```
 
 uv will find a version which works with the runtime constraints and
@@ -168,8 +169,8 @@ test running framework. You can use it to run the example unit tests
 of the example UDFs in this repo.
 
 ```shell
-example_udf $ uv run pytest tests/test_scalar.py
-example_udf $ uv run pytest
+basic $ uv run pytest tests/test_scalar.py
+basic $ uv run pytest
 ```
 
 There is further information in the [testing instructions in the
@@ -189,14 +190,14 @@ artifact.
 First build the sdist using uv.
 
 ```shell
-example_udf $ uv build --sdist
+basic $ uv build --sdist
 Successfully built dist/example_udf-0.1.0.tar.gz
 ```
 
 Then re-package the sdist into a zip.
 
 ```shell
-example_udf $ zip -FS dist/example_udf-0.1.0.zip dist/example_udf-0.1.0.tar.gz
+basic $ zip -FS dist/example_udf-0.1.0.zip dist/example_udf-0.1.0.tar.gz
 ```
 
 This creates `dist/example_udf-0.1.0.zip`.
@@ -208,7 +209,7 @@ Use the `confluent` command line tool to upload this zip as a Flink
 Python artifact.
 
 ```shell
-example_udf $ confluent flink artifact create my-flink-artifact \
+basic $ confluent flink artifact create my-flink-artifact \
     --artifact-file dist/example_udf-0.1.0.zip \
     --runtime-language python \
     --cloud aws \
@@ -242,7 +243,7 @@ CREATE FUNCTION str_concat AS 'example_udf.scalar.str_concat'
 > out by starting up a Python REPL.
 >
 > ```shell
-> example_udf $ uv run python
+> basic $ uv run python
 > ```
 >
 > And then double checking that your import path succeeds.
