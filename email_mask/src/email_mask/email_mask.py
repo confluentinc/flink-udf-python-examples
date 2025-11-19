@@ -1,4 +1,5 @@
 from pyflink.table import DataTypes
+from pyflink.table.types import DataType
 from pyflink.table.udf import udf
 import hashlib
 
@@ -21,6 +22,9 @@ def _mask_email(email: str) -> str:
     )
 
 
+_mask_email_input_types: list[DataType] = [DataTypes.STRING()]
 mask_email = udf(
-    _mask_email, input_types=[DataTypes.STRING()], result_type=DataTypes.STRING()
+    _mask_email,
+    input_types=_mask_email_input_types,
+    result_type=DataTypes.STRING(),
 )
