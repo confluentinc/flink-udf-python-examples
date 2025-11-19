@@ -1,29 +1,32 @@
 [project]
 name = "email-mask"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
+description = "Example Python UDF which hash-masks emails"
 authors = [
-    { name = "awmatheson", email = "amatheson@confluent.io" }
+    { name = "Zander Matheson", email = "amatheson@confluent.io" }
 ]
 requires-python = ">=3.10"
 dependencies = [
+    # This is needed to define your UDF. We only support one version
+    # of `apache-flink` currently.
     "apache-flink==2.0.0",
 ]
 
 [build-system]
-requires = ["uv_build>=0.8.9,<0.9.0"]
+requires = ["uv_build>=0.8.9,<0.10.0"]
 build-backend = "uv_build"
 
 [tool.uv]
 constraint-dependencies = [
     "apache-flink==2.0.0",
     "click>=8.2.0",
-    "confluent-function-runtime-core>=0.161.0",
+    "confluent-function-runtime-core>=0.181.0",
     "grpc-interceptor>=0.15.0",
     "grpcio-health-checking>=1.65.0",
     "grpcio-reflection>=1.65.0",
     "grpcio>=1.65.0",
     "protobuf>=5.29.1",
+    "psutil>=5.9.0",
+    "pyparsing>=3.2.5",
     "typing_extensions>=4.4.0",
 ]
