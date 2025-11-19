@@ -1,8 +1,7 @@
 [project]
 name = "example-udf"
 version = "0.1.0"
-description = "Example customer Python UDF"
-readme = "README.md"
+description = "Example Python UDF scaffolding"
 authors = [
     { name = "David Selassie", email = "dselassie@confluent.io" }
 ]
@@ -18,7 +17,7 @@ dependencies = [
 ]
 
 [build-system]
-requires = ["uv_build>=0.8.0,<0.10"]
+requires = ["uv_build>=0.8.0,<0.10.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
