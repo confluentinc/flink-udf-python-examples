@@ -19,4 +19,4 @@ blocks:
       jobs:
         - name: Tests
           commands:
-            - uv run pytest
+            - ./run_all_tests.sh
