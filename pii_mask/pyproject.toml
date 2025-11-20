@@ -1,0 +1,36 @@
+[project]
+name = "pii-mask"
+version = "0.1.0"
+description = "Python UDF to mask PII (Personally Identifiable Information) using Presidio"
+readme = "README.md"
+authors = [
+    { name = "awmatheson", email = "a.w.matheson@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "presidio-analyzer>=2.2.0",
+    "presidio-anonymizer>=2.2.0",
+    "apache-flink==2.0.0",
+    "spacy>=3.8.0",
+    "en-core-web-sm",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.9,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+constraint-dependencies = [
+    "apache-flink==2.0.0",
+    "click>=8.2.0",
+    "confluent-function-runtime-core>=0.161.0",
+    "grpc-interceptor>=0.15.0",
+    "grpcio-health-checking>=1.65.0",
+    "grpcio-reflection>=1.65.0",
+    "grpcio>=1.65.0",
+    "protobuf>=5.29.1",
+    "typing_extensions>=4.4.0",
+]
+
+[tool.uv.sources]
+en-core-web-sm = { path = "./en_core_web_sm-3.8.0" }
