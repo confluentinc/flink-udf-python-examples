@@ -233,7 +233,7 @@ where you specify the SQL function name, the qualified name of the UDF
 in the package, and the artifact ID.
 
 ```sql
-CREATE FUNCTION str_concat AS 'example_udf.scalar.str_concat'
+CREATE FUNCTION int_add AS 'example_udf.scalar.int_add'
   LANGUAGE PYTHON
   USING JAR 'confluent-artifact://cfa-devcq2yx3m';
 ```
@@ -259,10 +259,12 @@ CREATE FUNCTION str_concat AS 'example_udf.scalar.str_concat'
 > function.
 
 If the `CREATE FUNCTION` succeeds, you can call your UDF in followup
-SQL by the SQL function name, in this case `str_concat`. You can set
+SQL by the SQL function name, in this case `int_add`. You can set
 this name to be the same as the variable name in your Python project,
 but in the `CREATE FUNCTION` statement, you can give it an arbitrary
 name.
+
+If you look at the code in `src/` you will see there is more than one function in the code that you could create from the same artifact by changing the path in the `CREATE FUNCTION` syntax.
 
 
 ### Call Function
@@ -271,7 +273,7 @@ The simplest way to invoke your function for validation on Confluent
 Cloud is to call it in a `SELECT` statement with constant arguments.
 
 ```sql
-SELECT str_concat('Hello', 'World');
+SELECT int_add(1, 2);
 ```
 
 This will return a single row with the return value.
