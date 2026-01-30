@@ -197,7 +197,7 @@ Successfully built dist/example_udf-0.1.0.tar.gz
 Then re-package the sdist into a zip.
 
 ```shell
-basic $ zip -FS dist/example_udf-0.1.0.zip dist/example_udf-0.1.0.tar.gz
+basic $ zip -FS -j dist/example_udf-0.1.0.zip dist/example_udf-0.1.0.tar.gz
 ```
 
 This creates `dist/example_udf-0.1.0.zip`.
