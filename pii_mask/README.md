@@ -1,67 +1,150 @@
 # PII Mask UDF
 
 This example demonstrates a Python UDF that anonymizes Personally
-Identifiable Information (PII) such as names, phone numbers, email
-addresses, credit card numbers, etc. in text using Microsoft Presidio
-and spaCy's `en_core_web_sm` model and anonymizes them by masking the
-detected entities with `******`.
+Identifiable Information (PII) in text using regex-based detection.
 
-This example shows how to include a "private" Python dependency that
-is not on public PyPI.
-
+The UDF detects and masks:
+- Email addresses
+- Phone numbers
+- Social Security Numbers (SSN)
+- Credit card numbers
+- IP addresses
+- Dates of birth
+- ZIP codes
 
 ## Files
 
-- `src/pii_mask/__init__.py` - The UDF implementation that masks PII
+- `src/pii_mask/pii_mask.py` - The UDF implementation that masks PII
+- `src/pii_mask/__init__.py` - Package exports
+- `pyproject.toml` - Project configuration and dependencies
 
-- `pyproject.toml` - Project configuration and dependencies; note that
-  this explains how to bring in private packages, like we'll need
-  `en_core_web_sm` in this case
+## Dependencies
 
+This UDF uses [datafog](https://pypi.org/project/datafog/) for regex-based
+PII detection. No private dependencies or ML models are required.
 
-## Private Dependencies
+## Build and Deploy
 
-This example requires the spaCy's English language model, which is
-downloaded separately and so is not available on public PyPI. To
-include it:
+### 1. Build the UDF Package
 
-1. Download your dependency locally as a wheel or sdist file.
+```bash
+cd pii_mask
+uv build --sdist
+cd dist && zip -j pii_mask-0.1.0.zip pii_mask-0.1.0.tar.gz
+```
 
-2. Add it as a dev dependency to your uv project.
+### 2. Upload the Artifact
 
-   ```
-   uv add --dev ./en_core_web_sm-3.8.0-py3-none-any.whl
-   ```
+```bash
+confluent flink artifact create pii-mask \
+  --artifact-file dist/pii_mask-0.1.0.zip \
+  --cloud aws \
+  --region us-east-1 \
+  --environment <your-environment-id> \
+  --runtime-language python \
+  --description "UDF to mask PII (emails, phones, SSNs, credit cards, IPs) in text"
+```
 
-   This will cause it to be a dev dependency and to have a custom
-   "sources" location which is the local filesystem.
+Note the artifact ID and version from the output (e.g., `cfa-68xgq6/ver-08jxkp`).
 
-   > [!NOTE]
-   >
-   > Do not add your package as a non-dev dependency, nor specify the
-   > requirement as anything but a local file.
+### 3. Register the Function
 
-3. Build your UDF package as described in the [project-level
-   README](../../README.md).
+```bash
+confluent flink statement create \
+  --sql "CREATE FUNCTION mask_pii AS 'pii_mask.pii_mask.mask_pii' LANGUAGE PYTHON USING JAR 'confluent-artifact://<artifact-id>/<version-id>';" \
+  --compute-pool <your-compute-pool> \
+  --environment <your-environment-id> \
+  --database <your-kafka-cluster-id>
+```
 
-   ```
-   uv build --sdist
-   ```
+## Testing with Faker Data
 
-4. Create the artifact by zipping both your sdist and the private
-   dependencies together inside.
+### 1. Create a Faker Table
 
-   ```
-   zip -FS -j dist/pii_mask-0.1.0.zip \
-     dist/pii_mask-0.1.0.tar.gz \
-     ./en_core_web_sm-3.8.0-py3-none-any.whl
-   ```
+```bash
+confluent flink statement create \
+  --sql "CREATE TABLE game_telemetry_raw (
+  event_id STRING,
+  event_time TIMESTAMP(3),
+  player_id STRING,
+  player_name STRING,
+  player_email STRING,
+  player_ip STRING,
+  player_phone STRING,
+  game_session_id STRING,
+  event_type STRING,
+  level_id INT,
+  score INT,
+  health INT
+) WITH (
+  'connector' = 'faker',
+  'rows-per-second' = '5',
+  'fields.event_id.expression' = '#{Internet.uuid}',
+  'fields.event_time.expression' = '#{date.past ''30'',''SECONDS''}',
+  'fields.player_id.expression' = '#{regexify ''player_[a-z0-9]{8}''}',
+  'fields.player_name.expression' = '#{Name.fullName}',
+  'fields.player_email.expression' = '#{Internet.emailAddress}',
+  'fields.player_ip.expression' = '#{Internet.ipV4Address}',
+  'fields.player_phone.expression' = '#{PhoneNumber.cellPhone}',
+  'fields.game_session_id.expression' = '#{Internet.uuid}',
+  'fields.event_type.expression' = '#{Options.option ''MOVE'',''JUMP'',''ATTACK'',''COLLECT'',''CHAT'',''DEATH''}',
+  'fields.level_id.expression' = '#{number.numberBetween ''1'',''50''}',
+  'fields.score.expression' = '#{number.numberBetween ''0'',''100000''}',
+  'fields.health.expression' = '#{number.numberBetween ''0'',''100''}'
+);" \
+  --compute-pool <your-compute-pool> \
+  --environment <your-environment-id> \
+  --database <your-kafka-cluster-id> \
+  --wait
+```
 
-5. Upload that artifact. Confluent Cloud will install the other
-   package into the local Python virtualenv when running the UDF code.
+### 2. Test the UDF
 
+Open the Flink SQL shell:
 
-## Notes
+```bash
+confluent flink shell --compute-pool <your-compute-pool> --environment <your-environment-id>
+```
 
-With larger models or dependencies, you may need to contact Confluent
-to increase the size of the instance that runs your UDF.
+Set the database and run the query:
+
+```sql
+USE <your-kafka-cluster-id>;
+
+SELECT
+  event_id,
+  event_time,
+  player_id,
+  mask_pii(player_name) AS player_name_masked,
+  mask_pii(player_email) AS player_email_masked,
+  mask_pii(player_ip) AS player_ip_masked,
+  mask_pii(player_phone) AS player_phone_masked,
+  event_type,
+  level_id,
+  score,
+  health
+FROM game_telemetry_raw;
+```
+
+### Expected Output
+
+| Field | Result |
+|-------|--------|
+| `player_email_masked` | `****` |
+| `player_ip_masked` | `****` |
+| `player_phone_masked` | `****` |
+| `player_name_masked` | Original (regex doesn't detect names) |
+
+Press `Ctrl+C` to stop the streaming query.
+
+## Limitations
+
+The regex-based PII detection does not detect:
+- Person names
+- Organization names
+- Addresses (street names)
+- Other context-dependent PII
+
+For ML-based entity detection (including names), consider using the
+`datafog[nlp-advanced]` extra with GLiNER, though this significantly
+increases the package size (~400MB for torch + transformers).
