@@ -31,10 +31,10 @@ class MaskPii(ScalarFunction):
     @override
     def open(self, function_context: FunctionContext) -> None:
         # Presidio's EmailRecognizer uses tldextract to validate
-        # email TLDs. By default, tldextract tries to cache and
-        # fetch the Public Suffix List over HTTPS, which fails on
-        # read-only filesystems without SSL (like the SCP runtime).
-        # Configure it to use only its bundled snapshot instead.
+        # email TLDs. By default, tldextract tries to download an
+        # updated TLD suffix list over HTTPS, but the Confluent UDF
+        # runtime does not have network access. Configure it to use
+        # only its bundled snapshot instead.
         tldextract.extract = tldextract.TLDExtract(  # type: ignore[assignment]
             suffix_list_urls=(),
             cache_dir=None,
