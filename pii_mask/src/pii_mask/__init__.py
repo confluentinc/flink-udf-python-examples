@@ -1,3 +1,4 @@
+import tldextract
 from presidio_anonymizer import AnonymizerEngine, RecognizerResult
 from presidio_anonymizer.entities import OperatorConfig
 from presidio_analyzer import AnalyzerEngine
@@ -29,6 +30,17 @@ class MaskPii(ScalarFunction):
 
     @override
     def open(self, function_context: FunctionContext) -> None:
+        # Presidio's EmailRecognizer uses tldextract to validate
+        # email TLDs. By default, tldextract tries to download an
+        # updated TLD suffix list over HTTPS, but the Confluent UDF
+        # runtime does not have network access. Configure it to use
+        # only its bundled snapshot instead.
+        tldextract.extract = tldextract.TLDExtract(  # type: ignore[assignment]
+            suffix_list_urls=(),
+            cache_dir=None,
+            fallback_to_snapshot=True,
+        )
+
         # Initialize the NLP engine with the spaCy model
         # The model should be pre-installed and included in the build zip file
         model_name = "en_core_web_sm"
