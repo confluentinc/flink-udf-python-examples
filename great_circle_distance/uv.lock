@@ -349,9 +349,6 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "apache-flink" },
-    { name = "numpy" },
-    { name = "pandas" },
-    { name = "pyarrow" },
 ]
 
 [package.dev-dependencies]
@@ -362,12 +359,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "apache-flink", specifier = "==2.0.0" },
-    { name = "numpy", specifier = ">=2.0.0" },
-    { name = "pandas", specifier = ">=2.0.0" },
-    { name = "pyarrow", specifier = ">=16.0.0" },
-]
+requires-dist = [{ name = "apache-flink", specifier = "==2.0.0" }]
 
 [package.metadata.requires-dev]
 dev = [
@@ -813,7 +805,7 @@ name = "pemja"
 version = "0.4.1"
 source = { registry = "https://confluent-524708692776.d.codeartifact.us-west-2.amazonaws.com/pypi/confluent-python/simple/" }
 dependencies = [
-    { name = "find-libpython" },
+    { name = "find-libpython", marker = "sys_platform != 'win32'" },
 ]
 sdist = { url = "https://confluent-524708692776.d.codeartifact.us-west-2.amazonaws.com/pypi/confluent-python/simple/pemja/0.4.1/pemja-0.4.1.tar.gz", hash = "sha256:38b0466ba48822cd9fa65bf8465c45474bf3f048d6458388e0bf895904258e8c" }
 wheels = [
