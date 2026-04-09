@@ -10,12 +10,6 @@ dependencies = [
     # This is needed to define your UDF. We only support one version
     # of `apache-flink` currently.
     "apache-flink==2.0.0",
-    # Explicit deps for vectorized (pandas) UDF and Arrow interop.
-    # These are also transitively present via apache-flink, but listed
-    # here to make the requirement clear.
-    "numpy>=2.0.0",
-    "pandas>=2.0.0",
-    "pyarrow>=16.0.0",
 ]
 
 [build-system]
