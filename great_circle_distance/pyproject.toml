@@ -1,15 +1,21 @@
 [project]
-name = "email-mask"
+name = "great-circle-distance"
 version = "0.1.0"
-description = "Example Python UDF which hash-masks emails"
+description = "Example Python UDF which calculates the great circle distance between two lat/lon coordinates"
 authors = [
-    { name = "Zander Matheson", email = "amatheson@confluent.io" }
+    { name = "David Selassie", email = "dselassie@confluent.io" }
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     # This is needed to define your UDF. We only support one version
     # of `apache-flink` currently.
     "apache-flink==2.0.0",
+    # Explicit deps for vectorized (pandas) UDF and Arrow interop.
+    # These are also transitively present via apache-flink, but listed
+    # here to make the requirement clear.
+    "numpy>=2.0.0",
+    "pandas>=2.0.0",
+    "pyarrow>=16.0.0",
 ]
 
 [build-system]
@@ -17,8 +23,6 @@ requires = ["uv_build>=0.8.9,<0.10.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
-# You can still `uv add --dev` any development dependencies to run
-# tests or do lints, etc.
 dev = [
     "mypy>=1.18.2",
     "pytest>=9.0.1",
@@ -54,6 +58,14 @@ module = [
     "pyflink.*",
 ]
 follow_untyped_imports = true
+
+[[tool.mypy.overrides]]
+# pandas 2.x ships partial stubs; use pandas-stubs for full coverage
+# or silence the missing-stubs warning here.
+module = [
+    "pandas.*",
+]
+ignore_missing_imports = true
 
 # apache-beam 2.61.0 has no arm64 macOS wheel; uv must build it from the
 # sdist.  Its setup.py uses pkg_resources (from setuptools) but doesn't
