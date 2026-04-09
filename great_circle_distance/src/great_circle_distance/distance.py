@@ -65,6 +65,9 @@ def _f_great_circle_km(
         math.sin(dlat / 2) ** 2
         + math.cos(lat1_r) * math.cos(lat2_r) * math.sin(dlon / 2) ** 2
     )
+    # Clamp to [0, 1] to guard against floating-point values slightly outside
+    # the valid domain of asin, which would raise ValueError.
+    a = min(1.0, max(0.0, a))
     return _EARTH_RADIUS_KM * 2 * math.asin(math.sqrt(a))
 
 
@@ -114,6 +117,9 @@ def _f_great_circle_km_vec(
     dlat = np.radians(lat2 - lat1)
     dlon = np.radians(lon2 - lon1)
     a = np.sin(dlat / 2) ** 2 + np.cos(lat1_r) * np.cos(lat2_r) * np.sin(dlon / 2) ** 2
+    # Clamp to [0, 1] to guard against floating-point values slightly outside
+    # the valid domain of arcsin, which would produce NaN.
+    a = np.clip(a, 0.0, 1.0)
     return pd.Series(_EARTH_RADIUS_KM * 2 * np.arcsin(np.sqrt(a)))
 
 
