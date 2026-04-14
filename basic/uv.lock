@@ -983,7 +983,7 @@ wheels = [
 
 [[package]]
 name = "pytest"
-version = "8.4.1"
+version = "9.0.3"
 source = { registry = "https://confluent-524708692776.d.codeartifact.us-west-2.amazonaws.com/pypi/confluent-python/simple/" }
 dependencies = [
     { name = "colorama", marker = "sys_platform == 'win32'" },
@@ -994,9 +994,9 @@ dependencies = [
     { name = "pygments" },
     { name = "tomli", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://confluent-524708692776.d.codeartifact.us-west-2.amazonaws.com/pypi/confluent-python/simple/pytest/8.4.1/pytest-8.4.1.tar.gz", hash = "sha256:7c67fd69174877359ed9371ec3af8a3d2b04741818c51e5e99cc1742251fa93c" }
+sdist = { url = "https://confluent-524708692776.d.codeartifact.us-west-2.amazonaws.com/pypi/confluent-python/simple/pytest/9.0.3/pytest-9.0.3.tar.gz", hash = "sha256:b86ada508af81d19edeb213c681b1d48246c1a91d304c6c81a427674c17eb91c" }
 wheels = [
-    { url = "https://confluent-524708692776.d.codeartifact.us-west-2.amazonaws.com/pypi/confluent-python/simple/pytest/8.4.1/pytest-8.4.1-py3-none-any.whl", hash = "sha256:539c70ba6fcead8e78eebbf1115e8b589e7565830d7d006a8723f19ac8a0afb7" },
+    { url = "https://confluent-524708692776.d.codeartifact.us-west-2.amazonaws.com/pypi/confluent-python/simple/pytest/9.0.3/pytest-9.0.3-py3-none-any.whl", hash = "sha256:2c5efc453d45394fdd706ade797c0a81091eccd1d6e4bccfcd476e2b8e0ab5d9" },
 ]
 
 [[package]]
