@@ -4,6 +4,8 @@ Tests call the underlying bare Python functions directly, which lets
 you run them locally without a Flink environment.
 """
 
+import math
+
 import pandas as pd
 import pytest
 
@@ -43,6 +45,23 @@ def test_antipodal_points() -> None:
     assert distance_km == pytest.approx(20015.0, rel=0.01)
 
 
+@pytest.mark.parametrize(
+    "args",
+    [
+        (None, 0.0, 0.0, 0.0),
+        (0.0, None, 0.0, 0.0),
+        (0.0, 0.0, None, 0.0),
+        (0.0, 0.0, 0.0, None),
+        (None, None, None, None),
+    ],
+)
+def test_scalar_returns_none_for_null_input(
+    args: tuple[float | None, float | None, float | None, float | None],
+) -> None:
+    # SQL NULL propagation: any NULL operand → NULL result.
+    assert _f_great_circle_km(*args) is None
+
+
 # ---------------------------------------------------------------------------
 # Vectorized variant
 # ---------------------------------------------------------------------------
@@ -76,3 +95,18 @@ def test_vec_batch_multiple_rows() -> None:
     )
     assert result[0] == pytest.approx(343.5, rel=0.01)
     assert result[1] == pytest.approx(5570.0, rel=0.01)
+
+
+def test_vec_propagates_nan_for_null_input() -> None:
+    # Flink converts SQL NULL on a DOUBLE column to NaN in the pandas
+    # Series, and the result NaN converts back to SQL NULL.  Mirrors
+    # the scalar variant's None-in/None-out behavior.
+    result = _f_great_circle_km_vec(
+        pd.Series([48.8566, math.nan, 40.7128]),
+        pd.Series([2.3522, 0.0, -74.0060]),
+        pd.Series([51.5074, 0.0, 51.5074]),
+        pd.Series([-0.1278, 0.0, -0.1278]),
+    )
+    assert result[0] == pytest.approx(343.5, rel=0.01)
+    assert math.isnan(result[1])
+    assert result[2] == pytest.approx(5570.0, rel=0.01)
