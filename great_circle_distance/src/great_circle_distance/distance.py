@@ -41,22 +41,27 @@ _EARTH_RADIUS_KM: float = 6371.0
 
 
 def _f_great_circle_km(
-    lat1: float,
-    lon1: float,
-    lat2: float,
-    lon2: float,
-) -> float:
+    lat1: float | None,
+    lon1: float | None,
+    lat2: float | None,
+    lon2: float | None,
+) -> float | None:
     """Haversine formula for great circle distance in kilometres.
 
     Args:
-        lat1: Latitude of point A in decimal degrees.
-        lon1: Longitude of point A in decimal degrees.
-        lat2: Latitude of point B in decimal degrees.
-        lon2: Longitude of point B in decimal degrees.
+        lat1: Latitude of point A in decimal degrees, or ``None``.
+        lon1: Longitude of point A in decimal degrees, or ``None``.
+        lat2: Latitude of point B in decimal degrees, or ``None``.
+        lon2: Longitude of point B in decimal degrees, or ``None``.
 
     Returns:
-        Great circle distance between A and B in kilometres.
+        Great circle distance between A and B in kilometres, or
+        ``None`` if any argument is ``None``. SQL NULL propagation:
+        any NULL operand → NULL result. Matches the vectorized
+        variant's NaN-in-Series behavior.
     """
+    if lat1 is None or lon1 is None or lat2 is None or lon2 is None:
+        return None
     lat1_r = math.radians(lat1)
     lat2_r = math.radians(lat2)
     dlat = math.radians(lat2 - lat1)
@@ -104,13 +109,16 @@ def _f_great_circle_km_vec(
     interpreter overhead.
 
     Args:
-        lat1: Latitudes of point A (decimal degrees).
+        lat1: Latitudes of point A (decimal degrees). Rows with ``NaN``
+            (Flink SQL NULL) propagate ``NaN`` to the result.
         lon1: Longitudes of point A (decimal degrees).
         lat2: Latitudes of point B (decimal degrees).
         lon2: Longitudes of point B (decimal degrees).
 
     Returns:
         Great circle distances in kilometres as a ``pandas.Series``.
+        ``NaN`` in any input column at row *i* yields ``NaN`` at row
+        *i* of the result (Flink converts back to SQL NULL).
     """
     lat1_r = np.radians(lat1)
     lat2_r = np.radians(lat2)
